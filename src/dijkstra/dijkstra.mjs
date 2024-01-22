@@ -12,7 +12,7 @@ export const findNodeWithTheLowestCost = (costs, processed) => {
     const costValue = costs[costKey];
 
     if (costValue < lowestCost && !processed.includes(costKey)) {
-      lowerCost = costValue;
+      lowestCost = costValue;
       lowestCostNode = costKey;
     }
   }

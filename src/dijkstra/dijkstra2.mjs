@@ -29,45 +29,38 @@ const preparePaths = (graph, startKey) => {
   return resultDict;
 };
 
-export const findClosestNode = (graph, paths, currentVerticeKey) => {
-  // const shorterVertice
-  // const shorterVerticeValuej = Infinity;
-
-  console.log(`CURRENT ${currentVerticeKey}`);
-  let lowestValue, lowestValueVertice;
+export const findClosestNode = (
+  graph,
+  paths,
+  currentVerticeKey,
+  visited = [],
+) => {
+  let lowestValue = Infinity,
+    lowestValueVertice;
 
   for (const neighbour in graph[currentVerticeKey]) {
-    console.log('findClosestNode', neighbour);
-
     const distance =
       graph[currentVerticeKey][neighbour] +
       paths[currentVerticeKey].distanceFromStart;
-
-    console.log(
-      `new distance for ${currentVerticeKey} and it's neighbour ${neighbour} is: ${distance} and current distance is ${paths[neighbour].distanceFromStart}`
-    );
-
-    if (!lowestValue) {
-      lowestValue === distance;
-      lowestValueVertice = neighbour;
-    } else if (lowestValue < distance) {
-      lowestValue === distance;
-      lowestValueVertice = neighbour;
-    }
 
     if (distance < paths[neighbour].distanceFromStart) {
       console.log('przestawianko');
       paths[neighbour].distanceFromStart = distance;
       paths[neighbour].previousVertice = currentVerticeKey;
     }
-
-    console.log('== p1 ==');
-    console.log(paths);
-
-    console.log('distance', distance);
-
-    return lowestValueVertice;
   }
+
+  for (const pathKey in paths) {
+    if (
+      !visited.includes(pathKey) &&
+      lowestValue > paths[pathKey].distanceFromStart
+    ) {
+      lowestValue = paths[pathKey].distanceFromStart;
+      lowestValueVertice = pathKey;
+    }
+  }
+
+  return lowestValueVertice;
 };
 
 export const getShortestPath = (paths, startKey, endKey) => {
@@ -85,51 +78,17 @@ export const getShortestPath = (paths, startKey, endKey) => {
 export const dijkstra2 = (graph, startKey, endKey) => {
   const paths = preparePaths(graph, startKey);
   const visitedVertives = [];
-  const verticesToBeVisited = [startKey];
 
-  let closestNode = findClosestNode(graph, paths, startKey);
+  let closestNode = findClosestNode(graph, paths, startKey, visitedVertives);
 
-  while (typeof findVerticesWithSmallestPath !== undefined) {
-    visitedVertives.push(findVerticesWithSmallestPath);
+  while (typeof closestNode !== 'undefined') {
+    visitedVertives.push(closestNode);
 
-    findVerticesWithSmallestPath = findClosestNode(graph, paths, closestNode);
+    closestNode = findClosestNode(graph, paths, closestNode, visitedVertives);
   }
-
-  // while (verticesToBeVisited.length > 0) {
-  //   const currentVertice = verticesToBeVisited.shift();
-
-  //   if (!visitedVertives.includes(currentVertice)) {
-  //     console.log('===============');
-  //     const closest = findClosestNode(graph, paths, currentVertice);
-
-  //     console.log(
-  //       ` ${currentVertice} graph[currentVertice]`,
-  //       graph[currentVertice]
-  //     );
-
-  //     if (typeof graph[currentVertice] !== 'undefined') {
-  //       Array.prototype.push.apply(
-  //         verticesToBeVisited,
-  //         Object.keys(graph[currentVertice])
-  //       );
-  //     }
-  //   }
-
-  //   // console.log('removing');
-  //   visitedVertives.push(currentVertice);
-
-  //   console.log('tip top to be', verticesToBeVisited);
-  //   // console.log('tip top already visited', visitedVertives);
-  //   console.log('new paths', paths);
-  // }
-
-  // console.log('closest');
-  // console.log(closest);
 
   console.log('ultimate paths');
   console.log(paths);
-
-  // console.log('vertices paths',);
 
   const shortestPaths = getShortestPath(paths, startKey, endKey);
   console.log('shortestPaths paths', shortestPaths);
