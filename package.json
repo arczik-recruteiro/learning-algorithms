@@ -1,0 +1,11 @@
+{
+  "name": "node-starter",
+  "private": true,
+  "scripts": {
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
+    "start": "node index.mjs"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

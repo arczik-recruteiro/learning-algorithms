@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`multiplicationTable should print the result in console 1`] = `
+[
+  "1 * 1=1",
+]
+`;
+
+exports[`multiplicationTable should print the result in console 2`] = `
+[
+  "2 * 2=4",
+  "2 * 3=6",
+  "2 * 5=10",
+  "2 * 2=4",
+  "2 * 5=10",
+  "3 * undefined=NaN",
+  "5 * undefined=NaN",
+  "2 * undefined=NaN",
+  "5 * undefined=NaN",
+]
+`;
